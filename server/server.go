@@ -28,7 +28,7 @@ func jobStatusHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// send a JSON with only the status
-	response := map[string]string{"status": status.String()}
+	response := map[string]string{"result": status.String()}
 	if err := json.NewEncoder(w).Encode(response); err != nil {
 		http.Error(w, `{"error": "failed to encode status JSON"}`, http.StatusInternalServerError)
 		return
@@ -47,7 +47,7 @@ func createJobHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("GET /status", jobStatusHandler)
-	http.HandleFunc("POST /create", createJobHandler)
+	http.HandleFunc("POST /job", createJobHandler)
 
 	log.Println("Server started on port 8080")
 	http.ListenAndServe(":8080", nil)

@@ -52,11 +52,11 @@ func (job *Job) Start(onComplete func(job *Job)) {
 }
 
 func (job *Job) Fail() {
-	fmt.Printf("Job: %s [Failed]", job.ID)
+	fmt.Printf("Job: %s [Failed]\n", job.ID)
 	job.Status = Error
 }
 
 func (job *Job) Complete() {
-	fmt.Printf("Job: %s [Completed]", job.ID)
+	fmt.Printf("Job: %s [Completed]\n", job.ID)
 	job.Status = Completed
 }

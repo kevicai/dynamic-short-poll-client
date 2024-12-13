@@ -5,8 +5,8 @@ import (
 )
 
 const (
-	minJobTime float64 = 10 // in seconds
-	maxJobTime float64 = 30
+	minJobTime float64 = 3 // in seconds
+	maxJobTime float64 = 10
 )
 
 type JobManager struct {

@@ -15,8 +15,10 @@ func (m *TypedSyncMap) Store(key string, value JobStatus) {
 
 func (m *TypedSyncMap) Load(key string) (status JobStatus, ok bool) {
 	val, ok := m.data.Load(key)
-	status = val.(JobStatus)
-	return
+	if ok {
+		return val.(JobStatus), ok
+	}
+	return Error, false
 }
 
 func (m *TypedSyncMap) Delete(key string) {
