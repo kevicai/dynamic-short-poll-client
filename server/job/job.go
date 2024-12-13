@@ -48,6 +48,7 @@ func (job *Job) Start(onComplete func(job *Job)) {
 		job.Complete()
 	}
 
+	fmt.Printf("Time taken: %v\n", executionTime*time.Second)
 	onComplete(job)
 }
 
