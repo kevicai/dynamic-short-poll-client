@@ -20,7 +20,7 @@ func TestClient_GetJobStatus(t *testing.T) {
 	wg.Add(numJobs) // add 10 jobs to wait for completion
 
 	// Create a JobClient instance
-	c := &client.JobClient{}
+	c := client.NewJobClient()
 
 	handleComplete := func(job *client.Job) {
 		defer wg.Done() // mark the task as done
@@ -64,7 +64,7 @@ func TestClient_GetJobStatusAfterTrain(t *testing.T) {
 	wg.Add(numJobs) // add 10 jobs to wait for completion
 
 	// Create a JobClient instance
-	c := &client.JobClient{}
+	c := client.NewJobClient()
 
 	handleComplete := func(job *client.Job) {
 		defer wg.Done() // mark the task as done

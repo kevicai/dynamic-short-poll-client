@@ -1,25 +1,35 @@
-![alt text](/imgs/pre-train.png)
+# Dynamic Short Poll Client
 
-![alt text](/imgs/post-train.png)
+A client library in Golang to simulate the video translation jobs in the server.
 
-A client library in Golang to simulate the video translation jobs in the server using a configurable random delay.
+This client calls a simple server in `/server` which has two end points:
+- 'POST' /job: creates a job and returns a job object. The job completes after a random configurable delay. Currently set at 10-20s
+- 'GET' /status: Returns the status of the video translation jobs as a JSON:
+ 
+    {“result”: “pending” or “error” or “completed}
 
-## Server: 
+## Installation 
 
-You will be writing a server that implements a status API and returns a result that is pending, completed or error. This is just simulating the video translation backend. It will return pending until a configurable time has passed.
+The client library can be installed with go 1.23 or higher:
 
-GET /status 
+```
+go install github.com/kevicai/job-status-api/client@latest
+```
 
-Return result with {“result”: “pending” or “error” or “completed”}
+## Usage 
 
-## Client Library: 
+```go
+import "github.com/kevicai/job-status-api/client"
 
-You are writing a small client library to hit this server endpoint. Imagine you will be giving this library to a third party. They will be using it to get the status of the job. 
-
-In a trivial approach your library might just make a simple http call and wrap the errors and you ask the user of the library to call this repeatedly. If they call it very frequently then it has a cost, if they call it too slowly it might cause unnecessary delays in getting the status. 
+client := client.NewJobClient()
+```
 
 ## Deliverable
 
 A public git repository with your code 
 Write a small integration test that spins up your server and uses your client library to demonstrate the usage and print logs.
 Write a small doc on how to use your client library.
+
+![alt text](/imgs/pre-train.png)
+
+![alt text](/imgs/post-train.png)

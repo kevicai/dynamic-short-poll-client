@@ -25,10 +25,10 @@ type JobClient struct {
 	ApiUrl string
 }
 
-func NewJobClient(apiUrl string) *JobClient {
+func NewJobClient() *JobClient {
 	LoadStats()
 
-	return &JobClient{ApiUrl: apiUrl}
+	return &JobClient{}
 }
 
 var (

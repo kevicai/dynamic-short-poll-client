@@ -9,7 +9,7 @@ run-server:
 run-test: 
 	@ echo "Running tests..."
 	@ go clean -testcache 
-	@ go test . -v
+	@ go test ./tests -v
 
 test: run-server run-test
 	@echo "Tests completed."

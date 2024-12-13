@@ -1,8 +1,10 @@
 package test
 
 import (
+	"fmt"
 	"sync"
 	"testing"
+	"time"
 
 	"github.com/kevicai/job-status-api/client"
 )
@@ -10,20 +12,28 @@ import (
 func TestClient_GetJobStatus(t *testing.T) {
 	numJobs := 10
 
-	// fmt.Printf("Testing the creation and completion of %v jobs ...\n", numJobs)
+	fmt.Printf("Testing the creation and completion of %v jobs ...\n", numJobs)
 
-	// Create a JobClient instance
-	c := &client.JobClient{}
+	startTimes := sync.Map{}
 
 	var wg sync.WaitGroup
-	wg.Add(numJobs) // add 3 jobs to wait for completion
+	wg.Add(numJobs) // add 10 jobs to wait for completion
+
+	// Create a JobClient instance
+	c := client.NewJobClient()
 
 	handleComplete := func(job *client.Job) {
 		defer wg.Done() // mark the task as done
-		// fmt.Println("Job completed:", job.ID, "Status:", job.Status)
+
+		timeStarted, ok := startTimes.Load(job.ID)
+		if !ok {
+			t.Log("Failed to get start time for job", job.ID)
+		}
+
+		fmt.Println("Job completed:", job.ID, "| Status:", job.Status, "| Time taken:", time.Since(timeStarted.(time.Time)))
 	}
 
-	// create 3 jobs
+	// create jobs
 	for i := 0; i < numJobs; i++ {
 		jobID, err := c.CreateJob(handleComplete)
 		if err != nil {
@@ -35,8 +45,8 @@ func TestClient_GetJobStatus(t *testing.T) {
 			t.Error("Expected job ID, got empty string")
 			return
 		}
-
-		// fmt.Println("Created job with ID:", jobID)
+		startTimes.Store(jobID, time.Now())
+		fmt.Println("Created job with ID:", jobID)
 	}
 
 	// wait for all jobs to complete
@@ -46,20 +56,28 @@ func TestClient_GetJobStatus(t *testing.T) {
 func TestClient_GetJobStatusAfterTrain(t *testing.T) {
 	numJobs := 10
 
-	// fmt.Printf("Testing the creation and completion of %v jobs ...\n", numJobs)
+	fmt.Printf("Testing the creation and completion of %v jobs after training ...\n", numJobs)
+
+	startTimes := sync.Map{}
+
+	var wg sync.WaitGroup
+	wg.Add(numJobs) // add 10 jobs to wait for completion
 
 	// Create a JobClient instance
 	c := &client.JobClient{}
 
-	var wg sync.WaitGroup
-	wg.Add(numJobs) // add 3 jobs to wait for completion
-
 	handleComplete := func(job *client.Job) {
 		defer wg.Done() // mark the task as done
-		// fmt.Println("Job completed:", job.ID, "Status:", job.Status)
+
+		timeStarted, ok := startTimes.Load(job.ID)
+		if !ok {
+			t.Log("Failed to get start time for job", job.ID)
+		}
+
+		fmt.Println("Job completed:", job.ID, "| Status:", job.Status, "| Time taken:", time.Since(timeStarted.(time.Time)))
 	}
 
-	// create 3 jobs
+	// create jobs
 	for i := 0; i < numJobs; i++ {
 		jobID, err := c.CreateJob(handleComplete)
 		if err != nil {
@@ -71,8 +89,8 @@ func TestClient_GetJobStatusAfterTrain(t *testing.T) {
 			t.Error("Expected job ID, got empty string")
 			return
 		}
-
-		// fmt.Println("Created job with ID:", jobID)
+		startTimes.Store(jobID, time.Now())
+		fmt.Println("Created job with ID:", jobID)
 	}
 
 	// wait for all jobs to complete
