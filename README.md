@@ -1,3 +1,7 @@
+![alt text](/imgs/pre-train.png)
+
+![alt text](/imgs/post-train.png)
+
 A client library in Golang to simulate the video translation jobs in the server using a configurable random delay.
 
 ## Server: 

@@ -2,7 +2,6 @@ package client
 
 import (
 	"encoding/binary"
-	"fmt"
 	"math"
 	"os"
 	"sync"
@@ -92,26 +91,26 @@ func LoadStats() error {
 
 // Saves stats to the binary file
 func SaveStats() error {
-	fmt.Println("Saving stats")
-	statsMutex.Lock()
-	defer statsMutex.Unlock()
+	// fmt.Println("Saving stats")
+	// statsMutex.Lock()
+	// defer statsMutex.Unlock()
 
-	file, err := os.Create(statsFile)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
+	// file, err := os.Create(statsFile)
+	// if err != nil {
+	// 	return err
+	// }
+	// defer file.Close()
 
-	binaryStats := PollStatsBinary{
-		NumJobs:      int32(stats.NumJobs),
-		AvgTime:      int64(stats.AvgTime),
-		StdDeviation: int64(stats.StdDeviation.Milliseconds()),
-		VarianceSum:  int64(math.Float64bits(stats.VarianceSum)),
-	}
+	// binaryStats := PollStatsBinary{
+	// 	NumJobs:      int32(stats.NumJobs),
+	// 	AvgTime:      int64(stats.AvgTime),
+	// 	StdDeviation: int64(stats.StdDeviation.Milliseconds()),
+	// 	VarianceSum:  int64(math.Float64bits(stats.VarianceSum)),
+	// }
 
-	if err := binary.Write(file, binary.LittleEndian, &binaryStats); err != nil {
-		return err
-	}
+	// if err := binary.Write(file, binary.LittleEndian, &binaryStats); err != nil {
+	// 	return err
+	// }
 
 	return nil
 }

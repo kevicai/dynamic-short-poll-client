@@ -113,7 +113,7 @@ func (c *JobClient) shortPollStatus(job Job, onComplete func(job *Job)) {
 		if status != "pending" {
 			endTime := time.Now()
 			timeDiff := endTime.Sub(startTime)
-			fmt.Printf("Times Polled: %v. Time taken: %v\n", pollCount, timeDiff)
+			// fmt.Printf("Times Polled: %v. Time taken: %v\n", pollCount, timeDiff)
 
 			// if error status are rare and has different job durations, can also add a check to only update stats for completed jobs
 			go updateStats(timeDiff)
