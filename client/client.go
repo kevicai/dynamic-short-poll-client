@@ -1,4 +1,4 @@
-package translation
+package client
 
 import (
 	"encoding/json"
